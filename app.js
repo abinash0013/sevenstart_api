@@ -728,7 +728,7 @@ app.post("/matchedTicketForBooking", async (req, res) => {
       console.log("ppppw", result);
       if (error) {
         ResponseHandler(res, false, "Api Issue", result);
-      } else { 
+      } else {
         if (result) {
           console.log("qqqwwwsessw", result);
           console.log("qqqwwwseee", result[0].game_number_set);
@@ -771,7 +771,7 @@ app.post("/matchedTicketForBooking", async (req, res) => {
                     [gameIdVar]
                   );
                 }
-              }); 
+              });
 
               ticketData?.map((ticketDataItem, ticketDataIndex) => {
                 console.log("ticketDataItemmmm", ticketDataItem);
@@ -930,7 +930,7 @@ app.post("/matchedTicketForBooking", async (req, res) => {
               clearInterval(interval); // Stop the timer when 90 unique numbers are generated
               // console.log("Timer stopped.");
             }
-          } 
+          }
           // Set a timer to call the function every 100 milliseconds
           const interval = setInterval(generateUniqueRandomNumber, 8000);
           ResponseHandler(res, true, "Successfully..", result);
