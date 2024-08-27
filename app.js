@@ -1,8 +1,7 @@
 var firebase = require("firebase-admin");
-require('dotenv').config();
+require("dotenv").config();
 
-// var serviceAccount = require("./serviceAccountKey.json");
-const serviceAccount = JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS);
+var serviceAccount = require("./serviceAccountKey.json");
 
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
@@ -39,7 +38,7 @@ const ex_query = (sql, req, res, fields) => {
       } else {
         res.send(result);
       }
-    }
+    },
   );
 };
 
@@ -60,7 +59,7 @@ app.post("/adminLogin", async (req, res) => {
           ResponseHandler(res, false, "Login Faild", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -89,7 +88,7 @@ app.post("/agentsOwnDetails", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -116,7 +115,7 @@ app.post("/saveAgent", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Save..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -144,7 +143,7 @@ app.put("/editAgent", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Update..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -164,7 +163,7 @@ app.put("/deleteAgent", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -183,7 +182,7 @@ app.post("/agentTransactionHistory", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -210,7 +209,7 @@ app.post("/agentDebitRequest", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Save..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -239,7 +238,7 @@ app.post("/agentBookTicketAmount", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Save..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -272,17 +271,17 @@ app.post("/addMoneyToAgentWallet", async (req, res) => {
                     res,
                     false,
                     "Sorry., Unable to Update..",
-                    result
+                    result,
                   );
                 }
               }
-            }
+            },
           );
         } else {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -316,17 +315,17 @@ app.post("/deductMoneyFromAgentWallet", async (req, res) => {
                     res,
                     false,
                     "Sorry., Unable to Update..",
-                    result
+                    result,
                   );
                 }
               }
-            }
+            },
           );
         } else {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -346,7 +345,7 @@ app.post("/saveUser", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Save..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -372,7 +371,7 @@ app.put("/editUser", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Update..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -392,7 +391,7 @@ app.put("/deleteUser", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -416,7 +415,7 @@ app.post("/ticketList", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -436,7 +435,7 @@ app.post("/ticketCardView", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -514,7 +513,7 @@ const generateTambolaTicket = () => {
   // Create an array of all possible numbers
   const allNumbers = Array.from(
     { length: maxNumber - minNumber + 1 },
-    (_, index) => index + minNumber
+    (_, index) => index + minNumber,
   );
 
   // Shuffle the numbers randomly
@@ -541,7 +540,7 @@ const generateTambolaTicketIndex = (minNumber, maxNumber) => {
   // Create an array of all possible numbers
   const allNumbers = Array.from(
     { length: maxNumber - minNumber + 1 },
-    (_, index) => index + minNumber
+    (_, index) => index + minNumber,
   );
 
   // Shuffle the numbers randomly
@@ -661,9 +660,9 @@ app.post("/saveGame", async (req, res) => {
               ResponseHandler(res, false, "Sorry., Unable to Save..", result);
             }
           }
-        }
+        },
       );
-    }
+    },
   );
 });
 
@@ -687,7 +686,7 @@ app.post("/getNumberToSpeak", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Save..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -763,12 +762,12 @@ app.post("/matchedTicketForBooking", async (req, res) => {
                 if (numberData[index].status == "true") {
                   con.query(
                     "UPDATE `tbl_game` SET `game_status`='Game Over' WHERE `game_id`=?",
-                    [gameIdVar]
+                    [gameIdVar],
                   );
                 } else {
                   con.query(
                     "UPDATE `tbl_game` SET `game_status`='Active' WHERE `game_id`=?",
-                    [gameIdVar]
+                    [gameIdVar],
                   );
                 }
               });
@@ -793,7 +792,11 @@ app.post("/matchedTicketForBooking", async (req, res) => {
 
               ticketData?.map((ticketDataItem, ticketDataIndex) => {
                 console.log("ticketDataItemmm", ticketDataItem);
-                if (ticketDataItem.winnerTag == "" && ticketDataItem.userName !="") { // && ticketDataItem.userName !="" added on 30-01
+                if (
+                  ticketDataItem.winnerTag == "" &&
+                  ticketDataItem.userName != ""
+                ) {
+                  // && ticketDataItem.userName !="" added on 30-01
                   let quickSevenNumber = 0;
                   let topLineNumber = 0;
                   let middleLineNumber = 0;
@@ -804,9 +807,8 @@ app.post("/matchedTicketForBooking", async (req, res) => {
                     // console.log("dateSetItemmm", dateSetItem);
                     // console.log("randomNumberrr", dateSetItem, randomNumber, quickSevenAssigned);
                     if (dateSetItem.number == randomNumber) {
-                      ticketData[ticketDataIndex].dateSet[
-                        dateSetIndex
-                      ].status = true;
+                      ticketData[ticketDataIndex].dateSet[dateSetIndex].status =
+                        true;
                     }
                     if (quickSevenAssigned == false) {
                       if (dateSetItem.status) {
@@ -924,7 +926,7 @@ app.post("/matchedTicketForBooking", async (req, res) => {
                   JSON.stringify(numberData),
                   JSON.stringify(ticketData),
                   gameIdVar,
-                ]
+                ],
               );
             } else {
               clearInterval(interval); // Stop the timer when 90 unique numbers are generated
@@ -938,7 +940,7 @@ app.post("/matchedTicketForBooking", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1008,7 +1010,7 @@ app.put("/editGame", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Update..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1028,7 +1030,7 @@ app.put("/deleteGame", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1042,7 +1044,7 @@ app.get("/activeAnnouncement", async (req, res) => {
   ex_query(
     "SELECT * FROM tbl_announcement WHERE `announcement_status` = 'Active'",
     req,
-    res
+    res,
   );
 });
 
@@ -1066,7 +1068,7 @@ app.post("/saveAnnouncement", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Save..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1092,7 +1094,7 @@ app.put("/editAnnouncement", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Update..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1112,7 +1114,7 @@ app.put("/deleteAnnouncement", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1142,7 +1144,7 @@ app.put("/editDisclaimer", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Update..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1168,7 +1170,7 @@ app.post("/agentLogin", async (req, res) => {
           ResponseHandler(res, false, "Login Failed", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1190,7 +1192,7 @@ app.post("/viewTicketForAgents", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1242,24 +1244,24 @@ app.post("/bookTicketByAgents", async (req, res) => {
                     res,
                     true,
                     "Ticket Booked Successfully..",
-                    result
+                    result,
                   );
                 } else {
                   ResponseHandler(
                     res,
                     false,
                     "Sorry., Unable to Booked Ticket",
-                    result
+                    result,
                   );
                 }
               }
-            }
+            },
           );
           // console.log("second")
           // ResponseHandler(res, true, "Fetch Successfully..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1279,7 +1281,7 @@ app.post("/ticketCardViewForUser", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1299,7 +1301,7 @@ app.post("/agentDetails", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1319,7 +1321,7 @@ app.post("/agentPaidAmount", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1341,7 +1343,7 @@ app.post("/agentCreditDebitTransacationList", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1366,7 +1368,7 @@ app.post("/walletAction", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Save..", result);
         }
       }
-    }
+    },
   );
 });
 
@@ -1385,13 +1387,13 @@ app.put("/acceptTransactionRequest", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Update..", result);
         }
       }
-    }
+    },
   );
 });
 
-app.get("/getGameIdAndGameNameForUser", async (req, res)=>{
-  ex_query("SELECT * FROM `tbl_game`",req,res);
-})
+app.get("/getGameIdAndGameNameForUser", async (req, res) => {
+  ex_query("SELECT * FROM `tbl_game`", req, res);
+});
 
 app.post("/getGameDetailsForUser", async (req, res) => {
   con.query(
@@ -1409,7 +1411,7 @@ app.post("/getGameDetailsForUser", async (req, res) => {
           ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
         }
       }
-    }
+    },
   );
 });
 

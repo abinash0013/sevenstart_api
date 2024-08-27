@@ -1,17 +1,6 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "tambola",
-
-  // :::::::::::::::::::::::::::: for production uncomment for production
-  // host: "localhost",
-  // user: "tambola",
-  // password: "tambola@123#",
-  // database: "sevenstartambola",
-});
+var con = mysql.createConnection(process.env.MYSQL_URL);
 
 con.connect(function (err) {
   if (err) throw err;

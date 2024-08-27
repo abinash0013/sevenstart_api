@@ -1,6 +1,6 @@
 // Import Firebase
-import firebase from 'firebase/app';
-import 'firebase/auth'; // You can import other Firebase services as needed
+import firebase from "firebase/app";
+import "firebase/auth"; // You can import other Firebase services as needed
 
 // Initialize Firebase with your config
 
