@@ -92,6 +92,25 @@ app.post("/agentsOwnDetails", async (req, res) => {
   );
 });
 
+app.post("/agentsFilteredDetails", async (req, res) => {
+  con.query(
+    "SELECT * FROM tbl_game WHERE game_id=?",
+    [req.body.gameId],
+    function (error, result, fields) {
+      if (error) throw error;
+      if (error) {
+        ResponseHandler(res, false, "Api Issue", result);
+      } else {
+        if (result) {
+          ResponseHandler(res, true, "Fetch Successfully..", result);
+        } else {
+          ResponseHandler(res, false, "Sorry., Unable to Deleted", result);
+        }
+      }
+    },
+  );
+});
+
 // ::::::::::::::::::::::::::::::::::::::::: Save Agent //
 app.post("/saveAgent", async (req, res) => {
   con.query(
@@ -728,11 +747,11 @@ app.post("/matchedTicketForBooking", async (req, res) => {
       if (error) {
         ResponseHandler(res, false, "Api Issue", result);
       } else {
-        if (result) {
+        if (result.length > 0) {
           console.log("qqqwwwsessw", result);
-          console.log("qqqwwwseee", result[0].game_number_set);
-          let numberData = JSON.parse(result[0].game_number_set);
-          let ticketData = JSON.parse(result[0].ticket_set);
+          console.log("qqqwwwseee", result[0]?.game_number_set);
+          let numberData = JSON.parse(result[0]?.game_number_set);
+          let ticketData = JSON.parse(result[0]?.ticket_set);
           // let ticketData = JSON.stringify(result[0].ticket_set)
           console.log("ticketDataaaa", ticketData);
           // let numberData = JSON.stringify(result[0].game_number_set);
@@ -1146,6 +1165,63 @@ app.put("/editDisclaimer", async (req, res) => {
       }
     },
   );
+});
+
+// ::::::::::::::::::::::::::::::::::::::::: Disclaimer List
+app.get("/aboutList", async (req, res) => {
+  ex_query("SELECT * FROM tbl_about", req, res);
+});
+
+// ::::::::::::::::::::::::::::::::::::::::: Edit Disclaimer
+app.put("/editAbout", async (req, res) => {
+  con.query(
+    "UPDATE `tbl_about` SET `about_message`=?, `whatsappNumber`=? WHERE `about_id`=?",
+    [ 
+      req.body.aboutMessage, 
+      req.body.whatsappNumber, 
+      req.body.aboutId,
+    ],
+    function (error, result, fields) {
+      if (error) throw error;
+      if (error) {
+        ResponseHandler(res, false, "Api Issue", result);
+      } else {
+        if (result) {
+          ResponseHandler(res, true, "Update Successfully..", result);
+        } else {
+          ResponseHandler(res, false, "Sorry., Unable to Update..", result);
+        }
+      }
+    },
+  );
+});
+
+// ::::::::::::::::::::::::::::::::::::::::: Feedback List
+app.get("/feedbackList", async (req, res) => {
+  ex_query("SELECT * FROM tbl_feedback", req, res);
+});
+
+app.post("/saveFeedback", async (req, res) => {
+  con.query(
+    "INSERT INTO `tbl_feedback` SET `username`=?, `email`=?, `description`=?",
+    [
+      req.body.username,
+      req.body.email,
+      req.body.description
+    ],
+    function (error, result, fields) {
+      if (error) throw error;
+      if (error) {
+        ResponseHandler(res, false, "Api Issue", result);
+      } else {
+        if (result) {
+          ResponseHandler(res, true, "Save Successfully..", result);
+        } else {
+          ResponseHandler(res, false, "Sorry., Unable to Save..", result);
+        }
+      }
+    },
+  )
 });
 
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: //
