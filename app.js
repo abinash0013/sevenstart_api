@@ -1195,10 +1195,49 @@ app.put("/editAbout", async (req, res) => {
     },
   );
 });
-
+ 
 // ::::::::::::::::::::::::::::::::::::::::: Feedback List
-app.get("/feedbackList", async (req, res) => {
-  ex_query("SELECT * FROM tbl_feedback", req, res);
+// app.get("/feedbackList", async (req, res) => {
+//   ex_query("SELECT * FROM tbl_feedback", req, res);
+// });
+
+app.post("/feedbackList", async (req, res) => {
+  con.query(
+    "SELECT * FROM `tbl_feedback` Where `status`= ?",
+    [req.body.status],
+    function (error, result, fields) {
+      if (error) throw error;
+      // console.log(result);
+      if (error) {
+        ResponseHandler(res, false, "Api issue", result);
+      } else {
+        if (result.length > 0) {
+          ResponseHandler(res, true, "Login Successful", result);
+        } else {
+          ResponseHandler(res, false, "Login Failed", result);
+        }
+      }
+    },
+  );
+});
+
+app.put("/deleteFeedback", async (req, res) => {
+  con.query(
+    "UPDATE `tbl_feedback` SET `status`=? WHERE `feedback_id`=?",
+    [req.body.status, req.body.id],
+    function (error, result, fields) {
+      if (error) throw error;
+      if (error) {
+        ResponseHandler(res, false, "Api Issue", result);
+      } else {
+        if (result) {
+          ResponseHandler(res, true, "Update Successfully..", result);
+        } else {
+          ResponseHandler(res, false, "Sorry., Unable to Update..", result);
+        }
+      }
+    },
+  );
 });
 
 app.post("/saveFeedback", async (req, res) => {
