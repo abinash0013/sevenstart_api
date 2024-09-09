@@ -1,16 +1,36 @@
-var firebase = require("firebase-admin");
 require("dotenv").config();
+const admin = require('firebase-admin');
 
 // var serviceAccount = require("./serviceAccountKey.json");
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
-firebase.initializeApp({
-  credential: firebase.credential.cert(serviceAccount),
+// firebase.initializeApp({
+//   credential: firebase.credential.cert(serviceAccount),
+//   databaseURL: "https://sevenstarttambola-default-rtdb.firebaseio.com",
+// });
+
+// var db = firebase.database();
+
+
+admin.initializeApp({
+  credential: admin.credential.cert({
+    type: process.env.FIREBASE_TYPE,
+    project_id: process.env.FIREBASE_PROJECT_ID,
+    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+    private_key: process.env.FIREBASE_PRIVATE_KEY.replace,
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
+    client_id: process.env.FIREBASE_CLIENT_ID,
+    auth_uri: process.env.FIREBASE_AUTH_URI,
+    token_uri: process.env.FIREBASE_TOKEN_URI,
+    auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_CERT_URL,
+    client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
+    universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
+  }),
   databaseURL: "https://sevenstarttambola-default-rtdb.firebaseio.com",
 });
 
-var db = firebase.database();
+var db = admin.database();
 var ref = db.ref("game");
 
 // var userRef = ref.child('gameSet')
