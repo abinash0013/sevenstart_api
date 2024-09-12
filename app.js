@@ -766,8 +766,9 @@ app.post("/matchedTicketForBooking", async (req, res) => {
   const fullTime = `${hours}:${minutes}`;
   console.log("Date & Time:", fullDate, fullTime);
   con.query(
-    "SELECT `game_id`,`game_number_set`,`ticket_set` FROM `tbl_game` WHERE game_start_date=? AND game_start_time < ? AND game_id=?",
-    [fullDate, fullTime, req.body.gameId],
+    // "SELECT `game_id`,`game_number_set`,`ticket_set` FROM `tbl_game` WHERE game_start_date=? AND game_start_time < ? AND game_id=?",
+    "SELECT `game_id`,`game_number_set`,`ticket_set` FROM `tbl_game` WHERE game_start_date=? AND game_id=?",
+    [fullDate, req.body.gameId],
     function (error, result, fields) {
       if (error) throw error;
       console.log("ppppw", result);
