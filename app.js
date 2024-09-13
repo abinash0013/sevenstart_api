@@ -747,24 +747,60 @@ app.post("/matchedTicketForBooking", async (req, res) => {
   let middleLineAssigned = false;
   let bottomLineAssigned = false;
   let fullHouseCount = 0;
+  // const currentDate = new Date();
+
+  // // Extracting Date Components
+  // const year = currentDate.getFullYear();
+  // const month = currentDate.getMonth() + 1; // Months are zero-indexed, so add 1
+  // const day = currentDate.getDate();
+
+  // // Extracting Time Components
+  // const hours = currentDate.getHours();
+  // const minutes = currentDate.getMinutes();
+  // const seconds = currentDate.getSeconds();
+  // const milliseconds = currentDate.getMilliseconds();
+
+  // const fullDate = `${year}-${month > 9 ? month : `0` + month}-${
+  //   day > 9 ? day : `0` + day
+  // }`;
+  // const fullTime = `${hours}:${minutes}`;
+  // console.log("Date & Time:", fullDate, fullTime);
+
   const currentDate = new Date();
 
-  // Extracting Date Components
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = currentDate.getDate();
+  // Helper function to add leading zeros
+  const addLeadingZero = (value) => (value < 10 ? `0${value}` : value);
 
-  // Extracting Time Components
-  const hours = currentDate.getHours();
-  const minutes = currentDate.getMinutes();
-  const seconds = currentDate.getSeconds();
-  const milliseconds = currentDate.getMilliseconds();
+  // Extracting Date Components in IST
+  const options = {
+    timeZone: 'Asia/Kolkata', // Time zone for IST
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false // Use 24-hour format
+  };
 
-  const fullDate = `${year}-${month > 9 ? month : `0` + month}-${
-    day > 9 ? day : `0` + day
-  }`;
-  const fullTime = `${hours}:${minutes}`;
-  console.log("Date & Time:", fullDate, fullTime);
+  // Using Intl.DateTimeFormat to format date in IST
+  const formatter = new Intl.DateTimeFormat('en-GB', options);
+  const formattedDateParts = formatter.formatToParts(currentDate);
+
+  // Extract the formatted parts
+  const year = formattedDateParts.find(part => part.type === 'year').value;
+  const month = formattedDateParts.find(part => part.type === 'month').value;
+  const day = formattedDateParts.find(part => part.type === 'day').value;
+  const hours = formattedDateParts.find(part => part.type === 'hour').value;
+  const minutes = formattedDateParts.find(part => part.type === 'minute').value;
+  const seconds = formattedDateParts.find(part => part.type === 'second').value;
+
+  // Formatted Date and Time in IST
+  const fullDate = `${year}-${month}-${day}`;
+  const fullTime = `${hours}:${minutes}:${seconds}`;
+
+  console.log("Date & Time (IST):", fullDate, fullTime);
+
   con.query(
     "SELECT `game_id`,`game_number_set`,`ticket_set` FROM `tbl_game` WHERE game_start_date=? AND game_start_time < ? AND game_id=?", 
     [fullDate, fullTime, req.body.gameId],
