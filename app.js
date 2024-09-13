@@ -766,7 +766,7 @@ app.post("/matchedTicketForBooking", async (req, res) => {
   const fullTime = `${hours}:${minutes}`;
   console.log("Date & Time:", fullDate, fullTime);
   con.query(
-    "SELECT `game_id`,`game_number_set`,`ticket_set` FROM `tbl_game` WHERE game_start_date=? AND game_start_time > ? AND game_id=?",
+    "SELECT `game_id`,`game_number_set`,`ticket_set` FROM `tbl_game` WHERE game_start_date=? AND game_start_time < ? AND game_id=?", 
     [fullDate, fullTime, req.body.gameId],
     function (error, result, fields) {
       if (error) throw error;
@@ -1351,8 +1351,7 @@ app.post("/bookTicketByAgents", async (req, res) => {
           // console.log("resultresult", result[0].ticket_set);
           // console.log("resulttttw", req.body.selectedIdsForTicketBooking, result);
           let lastTicket = JSON.parse(result[0].ticket_set);
-          // console.log("lastTickettttt", lastTicket);
-          // let selectedTicket = JSON.stringify(req.body.selectedIdsForTicketBooking)
+          // console.log("lastTickettttt", lastTicket); 
           let selectedTicket = JSON.parse(req.body.selectedIdsForTicketBooking);
           // console.log("adsdfasdf1", selectedTicket, lastTicket);
           selectedTicket.map((selectedTicketItem, selectedTicketIndex) => {
@@ -1361,15 +1360,15 @@ app.post("/bookTicketByAgents", async (req, res) => {
               // console.log("adsdfasdf3", lastTicketItem);
               if (lastTicketItem.id == selectedTicketItem) {
                 // console.log("adsdfasdf4");
-                (lastTicketItem.agentId = "2"),
-                  (lastTicketItem.userName = req.body.userName),
-                  (lastTicketItem.userPhone = req.body.userPhone),
-                  (lastTicketItem.bookingDateAndTime = new Date().getTime());
+                (lastTicketItem.agentId = req.body.agentId),
+                (lastTicketItem.userName = req.body.userName),
+                (lastTicketItem.userPhone = req.body.userPhone),
+                (lastTicketItem.bookingDateAndTime = new Date().getTime());
               }
             });
           });
           const lastTicketString = JSON.stringify(lastTicket);
-          console.log("selectedTicketttttapi", lastTicket, lastTicketString);
+          // console.log("selectedTicketttttapi", lastTicket, lastTicketString);
           // console.log("selectedTicketttttapiString", lastTicketString);
 
           con.query(
