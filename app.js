@@ -166,6 +166,33 @@ app.post("/saveAgent", async (req, res) => {
 });
 
 // ::::::::::::::::::::::::::::::::::::::::: Edit Agent
+app.get("/agentEmailList", async (req, res) => { 
+  ex_query("SELECT agents_email FROM tbl_agents", req, res);
+}); 
+
+app.put("/forgotPasswordByAgent", async (req, res) => {
+  console.log("adadf");  
+  con.query(
+    "UPDATE `tbl_agents` SET `agents_password`=? WHERE `agents_email`=?",
+    [
+      req.body.newPassword, 
+      req.body.email,
+    ],
+    function (error, result, fields) {
+      if (error) throw error;
+      if (error) {
+        ResponseHandler(res, false, "Api Issue", result);
+      } else {
+        if (result) {
+          ResponseHandler(res, true, "Update Successfully..", result);
+        } else {
+          ResponseHandler(res, false, "Sorry., Unable to Update..", result);
+        }
+      }
+    },
+  );
+});
+
 app.put("/editAgent", async (req, res) => {
   con.query(
     "UPDATE `tbl_agents` SET  `agents_name`=?, `agents_email`=?, `agents_phone`=?, `agents_gender`=?,`agents_active_status`=?,`agents_status_remarks`=? WHERE `agents_id`=?",
