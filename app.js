@@ -325,6 +325,7 @@ app.post("/addMoneyToAgentWallet", async (req, res) => {
         ResponseHandler(res, false, "Api Issue", result);
       } else {
         if (result) {
+          console.log("resultLog", result);          
           const currentWalletBalance = Number(result[0].wallet);
           const requestedAmount = Number(req.body.requestedAmount);
           // Calculate the new wallet balance after adding requestedAmount
@@ -361,7 +362,7 @@ app.post("/addMoneyToAgentWallet", async (req, res) => {
 app.post("/deductMoneyFromAgentWallet", async (req, res) => {
   con.query(
     "SELECT `wallet` FROM `tbl_agents` WHERE `agents_id`=?",
-    [req.body.agentId],
+    [req.body.agentId, req.body.requestedAmount],
     function (error, result, fields) {
       if (error) throw error;
       if (error) {
@@ -1493,7 +1494,8 @@ app.post("/ticketCardViewForUser", async (req, res) => {
 app.post("/agentDetails", async (req, res) => {
   con.query(
     "SELECT * FROM tbl_agents WHERE agents_id=?",
-    [req.body.agent_id],
+    // [req.body.agent_id],
+    [req.body.agentId],
     function (error, result, fields) {
       if (error) throw error;
       if (error) {
